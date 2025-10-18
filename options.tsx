@@ -14,7 +14,7 @@ const Options = () => {
     };
 
     // 删除 Header
-    const removeHeader = index => {
+    const removeHeader = (index) => {
         if (headers.length <= 1) return;
         const newHeaders = [...headers];
         newHeaders.splice(index, 1);
@@ -31,15 +31,15 @@ const Options = () => {
     // 保存配置
     const saveConfig = () => {
         // 过滤空名称的 Header
-        const validHeaders = headers.filter(h => h.header.trim());
+        const validHeaders = headers.filter((h) => h.header.trim());
         setHeaders(validHeaders);
 
         // 处理 URL 规则
         const patterns = urlPatterns
             .join('\n')
             .split('\n')
-            .map(p => p.trim())
-            .filter(p => p);
+            .map((p) => p.trim())
+            .filter((p) => p);
 
         setUrlPatterns(patterns.length ? patterns : ['<all_urls>']);
         setStatus('配置已保存！');
@@ -58,14 +58,14 @@ const Options = () => {
                             type="text"
                             placeholder="Header 名称"
                             value={header.header}
-                            onChange={e => updateHeader(index, 'header', e.target.value)}
+                            onChange={(e) => updateHeader(index, 'header', e.target.value)}
                             style={{ flex: 1, padding: '8px' }}
                         />
                         <input
                             type="text"
                             placeholder="Header 值"
                             value={header.value}
-                            onChange={e => updateHeader(index, 'value', e.target.value)}
+                            onChange={(e) => updateHeader(index, 'value', e.target.value)}
                             style={{ flex: 1, padding: '8px' }}
                         />
                         <button onClick={() => removeHeader(index)} style={{ padding: '0 12px' }}>
@@ -83,7 +83,7 @@ const Options = () => {
                 <textarea
                     placeholder="每行一个规则，例如：https://*.example.com/*"
                     value={urlPatterns.join('\n')}
-                    onChange={e => setUrlPatterns(e.target.value.split('\n'))}
+                    onChange={(e) => setUrlPatterns(e.target.value.split('\n'))}
                     rows={4}
                     style={{ width: '100%', padding: '8px', marginTop: '8px' }}
                 />

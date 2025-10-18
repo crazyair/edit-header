@@ -6,8 +6,8 @@ let headersConfig: HeaderType[] = [];
 let urlPatterns = ['<all_urls>'];
 
 const getRules = () => {
-    return new Promise<chrome.declarativeNetRequest.Rule[]>(resolve => {
-        chrome.declarativeNetRequest.getDynamicRules(rules => {
+    return new Promise<chrome.declarativeNetRequest.Rule[]>((resolve) => {
+        chrome.declarativeNetRequest.getDynamicRules((rules) => {
             resolve(rules);
         });
     });
@@ -15,7 +15,7 @@ const getRules = () => {
 
 // 所有类型都用
 const resourceTypes = Object.keys(chrome.declarativeNetRequest.ResourceType).map(
-    key => chrome.declarativeNetRequest.ResourceType[key]
+    (key) => chrome.declarativeNetRequest.ResourceType[key]
 );
 
 const init = async (headers: HeaderType[]) => {
@@ -23,7 +23,7 @@ const init = async (headers: HeaderType[]) => {
     const rules = await getRules();
     console.log('rules', rules);
     chrome.declarativeNetRequest.updateDynamicRules({
-        removeRuleIds: rules.map(item => item.id),
+        removeRuleIds: rules.map((item) => item.id),
     });
 
     // 添加规则
@@ -34,7 +34,7 @@ const init = async (headers: HeaderType[]) => {
                 priority: 1,
                 action: {
                     type: chrome.declarativeNetRequest.RuleActionType['MODIFY_HEADERS'],
-                    requestHeaders: headers.map(item => ({
+                    requestHeaders: headers.map((item) => ({
                         operation: chrome.declarativeNetRequest.HeaderOperation['SET'],
                         header: item.header,
                         value: item.value,
@@ -53,14 +53,14 @@ const init = async (headers: HeaderType[]) => {
 };
 
 // 取值
-chrome.storage.sync.get(['headers', 'urlPatterns'], result => {
+chrome.storage.sync.get(['headers', 'urlPatterns'], (result) => {
     headersConfig = JSON.parse(result.headers) || [];
     urlPatterns = result.urlPatterns || ['<all_urls>'];
     init(headersConfig);
 });
 
 // 监听配置变化
-chrome.storage.onChanged.addListener(changes => {
+chrome.storage.onChanged.addListener((changes) => {
     if (changes.headers) headersConfig = JSON.parse(changes.headers.newValue) || [];
     if (changes.urlPatterns) urlPatterns = changes.urlPatterns.newValue || ['<all_urls>'];
     init(headersConfig);

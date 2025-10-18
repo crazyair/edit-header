@@ -2,7 +2,6 @@ lockfileVersion: 5.3
 
 specifiers:
   '@ianvs/prettier-plugin-sort-imports': 4.1.1
-  '@plasmohq/messaging': ^0.7.2
   '@plasmohq/storage': ^1.15.0
   '@types/chrome': 0.0.258
   '@types/node': 20.11.5
@@ -12,10 +11,9 @@ specifiers:
   prettier: 3.6.2
   react: 18.2.0
   react-dom: 18.2.0
-  typescript: 5.3.3
+  typescript: 5.9.3
 
 dependencies:
-  '@plasmohq/messaging': 0.7.2_react@18.2.0
   '@plasmohq/storage': 1.15.0_react@18.2.0
   plasmo: 0.90.5_0fcd2e7b154a6292bfa722d2b023f512
   react: 18.2.0
@@ -28,7 +26,7 @@ devDependencies:
   '@types/react': 18.2.48
   '@types/react-dom': 18.2.18
   prettier: 3.6.2
-  typescript: 5.3.3
+  typescript: 5.9.3
 
 packages:
 
@@ -2268,18 +2266,6 @@ packages:
 
   /@plasmohq/init/0.7.0:
     resolution: {integrity: sha512-P75g48dqOGneJ+n0AcqnLE/TYflcaPc3B7h6EopnCBBYUDnCNBMwYmKAkaf5pnhsEB0ybPS6TU1C2DTGfqaW7A==}
-    dev: false
-
-  /@plasmohq/messaging/0.7.2_react@18.2.0:
-    resolution: {integrity: sha512-waIp827DRgy4KiF+eoWQBvlacltAGzD1LgeFdgMC0tF2eMSgSFmvIEZc/8irQUFTcG+nk/Z+ESTIS7MVX71iTQ==}
-    peerDependencies:
-      react: ^16.8.6 || ^17 || ^18 || ^19.0.0
-    peerDependenciesMeta:
-      react:
-        optional: true
-    dependencies:
-      nanoid: 5.1.5
-      react: 18.2.0
     dev: false
 
   /@plasmohq/parcel-bundler/0.5.6:
@@ -4776,12 +4762,6 @@ packages:
     hasBin: true
     dev: false
 
-  /nanoid/5.1.5:
-    resolution: {integrity: sha512-Ir/+ZpE9fDsNH0hQ3C68uyThDXzYcim2EqcZ8zn8Chtt1iylPT9xXJB0kPCnqzgcEGikO9RxSrh63MsmVCU7Fw==}
-    engines: {node: ^18 || >=20}
-    hasBin: true
-    dev: false
-
   /needle/3.3.1:
     resolution: {integrity: sha512-6k0YULvhpw+RoLNiQCRKOl09Rv1dPLr8hHnVjHqdolKwDrdNyk+Hmrthi4lIGPPz3r39dLx0hsF5s40sZ3Us4Q==}
     engines: {node: '>= 4.4.x'}
@@ -5650,17 +5630,17 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.3.3:
-    resolution: {integrity: sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==}
-    engines: {node: '>=14.17'}
-    hasBin: true
-    dev: true
-
   /typescript/5.8.2:
     resolution: {integrity: sha512-aJn6wq13/afZp/jT9QZmwEjDqqvSGp1VT5GVg+f/t6/oVyrgXM6BY1h9BRh/O5p3PlUPAe+WuiEZOmb/49RqoQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
+
+  /typescript/5.9.3:
+    resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: true
 
   /undici-types/5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
