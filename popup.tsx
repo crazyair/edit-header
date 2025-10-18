@@ -24,7 +24,7 @@ function IndexPopup() {
             <Card
                 title="edit-header"
                 size="small"
-                style={{ width: 600 }}
+                style={{ width: 600, minHeight: 500 }}
                 extra={
                     <Flex align="center" gap={20}>
                         <Switch value={settings.open} onChange={(e) => setSettings((s) => ({ ...s, open: e }))} />
@@ -59,7 +59,7 @@ function IndexPopup() {
                     <Form.Item label="默认 header" name="header">
                         <Input />
                     </Form.Item>
-                    <Form.Item label="value 格式化" name="valueType">
+                    <Form.Item label="格式化 value" name="valueType">
                         <Select
                             options={[
                                 { value: 1, label: '小写' },
