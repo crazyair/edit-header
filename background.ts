@@ -76,8 +76,8 @@ const init = async () => {
     chrome.declarativeNetRequest.updateDynamicRules({
         addRules: list,
     });
-    await sleep(30);
-    const rules2 = await getRules();
+    // await sleep(30);
+    // const rules2 = await getRules();
     // console.log('rules22', rules2);
 };
 
