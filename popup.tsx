@@ -1,4 +1,4 @@
-import { Card, ConfigProvider, Form, Input, Modal } from 'antd';
+import { Card, ConfigProvider, Flex, Form, Input, Modal, Radio, Select, Switch } from 'antd';
 
 import { useStorage } from '@plasmohq/storage/hook';
 
@@ -6,18 +6,18 @@ import RulesForm from '~components/RulesForm';
 
 import '~/index.less';
 
-import { SettingOutlined } from '@ant-design/icons';
+import { SettingOutlined, SwapLeftOutlined } from '@ant-design/icons';
 import zhCN from 'antd/locale/zh_CN';
 import { useState } from 'react';
 
 import type { ruleDataType } from '~background';
 
-export type settingType = { header?: string };
+export type settingsType = { open?: boolean; header?: string; valueType?: number };
 
 function IndexPopup() {
     const [ruleData = {}, setRuleData, { isLoading }] = useStorage<ruleDataType>('ruleData');
     const [open, setOpen] = useState(false);
-    const [setting = {}, setSetting] = useStorage<settingType>('setting');
+    const [settings = {}, setSettings] = useStorage<settingsType>('settings', { open: true });
 
     return (
         <ConfigProvider locale={zhCN}>
@@ -26,13 +26,16 @@ function IndexPopup() {
                 size="small"
                 style={{ width: 600 }}
                 extra={
-                    <div onClick={() => setOpen(true)}>
-                        <SettingOutlined />
-                    </div>
+                    <Flex align="center" gap={20}>
+                        <Switch value={settings.open} onChange={(e) => setSettings((s) => ({ ...s, open: e }))} />
+                        <div onClick={() => setOpen(true)}>
+                            <SettingOutlined />
+                        </div>
+                    </Flex>
                 }
             >
                 {!isLoading && (
-                    <RulesForm setting={setting} ruleData={ruleData} onChange={(data) => setRuleData(data)} />
+                    <RulesForm settings={settings} ruleData={ruleData} onChange={(data) => setRuleData(data)} />
                 )}
                 <Modal
                     title="设置"
@@ -42,9 +45,9 @@ function IndexPopup() {
                     modalRender={(node) => (
                         <Form
                             layout="vertical"
-                            initialValues={setting}
+                            initialValues={settings}
                             onFinish={(values) => {
-                                setSetting(values);
+                                setSettings(values);
                                 setOpen(false);
                             }}
                         >
@@ -55,6 +58,14 @@ function IndexPopup() {
                 >
                     <Form.Item label="默认 header" name="header">
                         <Input />
+                    </Form.Item>
+                    <Form.Item label="value 格式化" name="valueType">
+                        <Select
+                            options={[
+                                { value: 1, label: '小写' },
+                                { value: 2, label: '大写' },
+                            ]}
+                        />
                     </Form.Item>
                 </Modal>
             </Card>

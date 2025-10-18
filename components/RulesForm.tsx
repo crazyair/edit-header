@@ -2,9 +2,9 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Card, Flex, Form, Input, Space, Switch } from 'antd';
 
 import type { ruleDataType } from '~background';
-import type { settingType } from '~popup';
+import type { settingsType } from '~popup';
 
-const ChildrenForm = ({ name = 0, setting }: { name?: number; setting: settingType }) => {
+const ChildrenForm = ({ name = 0 }: { name?: number }) => {
     return (
         <Form.List name={[name, 'requestHeaders']}>
             {(fields, { add, remove }) => (
@@ -12,28 +12,21 @@ const ChildrenForm = ({ name = 0, setting }: { name?: number; setting: settingTy
                     {fields.map(({ key, name }) => (
                         <Flex key={key} vertical gap={8}>
                             <Flex style={{ marginBottom: 8 }} gap={8} align="center">
-                                <Form.Item name={[name, 'path']} noStyle>
-                                    <Input />
+                                <Form.Item name={[name, 'url']} noStyle>
+                                    <Input placeholder="url" />
                                 </Form.Item>
-                                <Form.Item name={[name, 'header']} noStyle>
-                                    <Input />
-                                </Form.Item>
-                                <Form.Item name={[name, 'value']} noStyle>
-                                    <Input />
+                                <Form.Item name={[name, 'open']} noStyle>
+                                    <Switch size="small" />
                                 </Form.Item>
                                 <MinusCircleOutlined onClick={() => remove(name)} />
+                                {fields.length === name + 1 && (
+                                    <Button type="dashed" onClick={() => add({ open: true })} icon={<PlusOutlined />}>
+                                        Add url
+                                    </Button>
+                                )}
                             </Flex>
                         </Flex>
                     ))}
-                    <Form.Item>
-                        <Button
-                            type="dashed"
-                            onClick={() => add({ open: true, header: setting.header })}
-                            icon={<PlusOutlined />}
-                        >
-                            Add config
-                        </Button>
-                    </Form.Item>
                 </div>
             )}
         </Form.List>
@@ -41,11 +34,11 @@ const ChildrenForm = ({ name = 0, setting }: { name?: number; setting: settingTy
 };
 
 const RulesForm = ({
-    setting,
+    settings,
     ruleData,
     onChange,
 }: {
-    setting: settingType;
+    settings: settingsType;
     ruleData: ruleDataType;
     onChange: (data: ruleDataType) => void;
 }) => {
@@ -61,8 +54,11 @@ const RulesForm = ({
                                 key={key}
                                 title={
                                     <Flex gap={8} align="center">
-                                        <Form.Item name={[name, 'url']} noStyle>
-                                            <Input />
+                                        <Form.Item name={[name, 'header']} noStyle>
+                                            <Input placeholder="header" />
+                                        </Form.Item>
+                                        <Form.Item name={[name, 'value']} noStyle>
+                                            <Input placeholder="value" />
                                         </Form.Item>
                                         <Form.Item name={[name, 'open']} noStyle>
                                             <Switch size="small" />
@@ -72,13 +68,15 @@ const RulesForm = ({
                                 }
                                 size="small"
                             >
-                                <ChildrenForm name={name} setting={setting} />
+                                <ChildrenForm name={name} />
                             </Card>
                         ))}
                         <Form.Item>
                             <Button
                                 type="dashed"
-                                onClick={() => add({ open: true, requestHeaders: [{ open: true }] })}
+                                onClick={() =>
+                                    add({ open: true, header: settings.header, requestHeaders: [{ open: true }] })
+                                }
                                 block
                                 icon={<PlusOutlined />}
                             >
