@@ -41,9 +41,8 @@ const RulesForm = ({ settings, ruleData, onChange }: { settings: settingsType; r
         {(fields, { add, remove }) => (
           <Flex vertical gap={8}>
             {fields.map(({ key, name }) => (
-              <Card
-                key={key}
-                title={
+              <Card key={key} size="small">
+                <Flex vertical gap={8}>
                   <Flex gap={8} align="center">
                     <Form.Item name={[name, 'header']} noStyle>
                       <Input placeholder="header" />
@@ -56,10 +55,8 @@ const RulesForm = ({ settings, ruleData, onChange }: { settings: settingsType; r
                     </Form.Item>
                     <MinusCircleOutlined onClick={() => remove(name)} />
                   </Flex>
-                }
-                size="small"
-              >
-                <ChildrenForm name={name} />
+                  <ChildrenForm name={name} />
+                </Flex>
               </Card>
             ))}
             <Form.Item>
