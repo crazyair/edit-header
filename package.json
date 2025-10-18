@@ -2,8 +2,8 @@
     "name": "edit-header",
     "displayName": "Edit header",
     "version": "0.0.2",
-    "description": "A basic Plasmo extension.",
-    "author": "Plasmo Corp. <foss@plasmo.com>",
+    "description": "一个修改 request header 的工具",
+    "author": "https://github.com/crazyair",
     "scripts": {
         "dev": "plasmo dev",
         "build": "plasmo build",
