@@ -1,16 +1,19 @@
 {
     "name": "edit-header",
     "displayName": "Edit header",
-    "version": "0.0.1",
-    "description": "A basic Plasmo extension.",
-    "author": "Plasmo Corp. <foss@plasmo.com>",
+    "version": "0.0.2",
+    "description": "一个修改 request header 的工具",
+    "author": "https://github.com/crazyair",
     "scripts": {
         "dev": "plasmo dev",
         "build": "plasmo build",
         "package": "plasmo package"
     },
     "dependencies": {
+        "@ant-design/icons": "^6.1.0",
         "@plasmohq/storage": "^1.15.0",
+        "@plasmo-corp/ewu": "^0.6.0",
+        "antd": "^5.27.5",
         "plasmo": "0.90.5",
         "react": "18.2.0",
         "react-dom": "18.2.0"
@@ -32,6 +35,7 @@
         ],
         "host_permissions": [
             "<all_urls>"
-        ]
+        ],
+        "default_locale": "zh_CN"
     }
 }
