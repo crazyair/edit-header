@@ -1,7 +1,7 @@
 {
   "name": "edit-header",
   "displayName": "Edit header",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "一个修改 request header 的工具",
   "author": "https://github.com/crazyair",
   "scripts": {

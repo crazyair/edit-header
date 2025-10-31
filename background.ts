@@ -36,29 +36,32 @@ const init = async () => {
   const { rules = [] } = ruleData;
 
   const list: chrome.declarativeNetRequest.UpdateRuleOptions['addRules'] = [];
-  const filterRules = rules.filter((item) => {
-    return settings?.open && item.open && item.header && item.value && item.list.filter((item2) => item.open && !!item2.url).length > 0;
-  });
-  filterRules.forEach((item) => {
-    item.list.map((item2) => {
-      const { header = '' } = item;
-      let value = item.value;
-      if (settings?.valueType === 1) {
-        value = value?.toLowerCase();
-      } else if (settings?.valueType === 2) {
-        value = value?.toUpperCase();
+  if (settings?.open) {
+    rules.forEach((item) => {
+      if (item.open && item.header && item.value) {
+        item.list.forEach((item2) => {
+          if (item2.open && item2.url) {
+            const { header = '' } = item;
+            let value = item.value;
+            if (settings?.valueType === 1) {
+              value = value?.toLowerCase();
+            } else if (settings?.valueType === 2) {
+              value = value?.toUpperCase();
+            }
+            list.push({
+              id: list.length + 1,
+              priority: list.length + 1,
+              action: {
+                type: chrome.declarativeNetRequest.RuleActionType['MODIFY_HEADERS'],
+                requestHeaders: [{ operation: chrome.declarativeNetRequest.HeaderOperation['SET'], header, value }],
+              },
+              condition: { urlFilter: item2.url, resourceTypes: resourceTypes },
+            });
+          }
+        });
       }
-      list.push({
-        id: list.length + 1,
-        priority: list.length + 1,
-        action: {
-          type: chrome.declarativeNetRequest.RuleActionType['MODIFY_HEADERS'],
-          requestHeaders: [{ operation: chrome.declarativeNetRequest.HeaderOperation['SET'], header, value }],
-        },
-        condition: { urlFilter: item2.url, resourceTypes: resourceTypes },
-      });
     });
-  });
+  }
   console.log('配置');
   console.log(JSON.stringify(list, null, 2));
   // 添加规则
