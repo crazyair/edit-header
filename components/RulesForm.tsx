@@ -60,7 +60,12 @@ const RulesForm = ({ settings, ruleData, onChange }: { settings: settingsType; r
               </Card>
             ))}
             <Form.Item>
-              <Button type="dashed" onClick={() => add({ open: true, header: settings.header, list: [{ open: true }] })} block icon={<PlusOutlined />}>
+              <Button
+                type="dashed"
+                onClick={() => add({ open: true, header: settings.header, list: [{ open: true }] })}
+                block
+                icon={<PlusOutlined />}
+              >
                 Add rule
               </Button>
             </Form.Item>
