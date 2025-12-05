@@ -11,10 +11,11 @@ import zhCN from 'antd/locale/zh_CN';
 import { useState } from 'react';
 
 import type { ruleDataType, settingsType } from '~background';
+import RulesForm2 from '~components/RulesForm2';
 
 function IndexPopup() {
   const [ruleData = {}, setRuleData, { isLoading }] = useStorage<ruleDataType>('ruleData');
-  const [settings = {}, setSettings] = useStorage<settingsType>('settings', { open: true });
+  const [settings = {}, setSettings] = useStorage<settingsType>('settings', { open: true, version: '1' });
 
   const [open, setOpen] = useState(false);
 
@@ -33,7 +34,12 @@ function IndexPopup() {
           </Flex>
         }
       >
-        {!isLoading && <RulesForm settings={settings} ruleData={ruleData} onChange={(data) => setRuleData(data)} />}
+        {!isLoading && (
+          <>
+            {settings.version === '1' && <RulesForm settings={settings} ruleData={ruleData} onChange={(data) => setRuleData(data)} />}
+            {settings.version === '2' && <RulesForm2 settings={settings} ruleData={ruleData} onChange={(data) => setRuleData(data)} />}
+          </>
+        )}
         <Modal
           title="设置"
           open={open}
@@ -53,6 +59,15 @@ function IndexPopup() {
           )}
           okButtonProps={{ htmlType: 'submit' }}
         >
+          <Form.Item noStyle name="open" />
+          <Form.Item label="版本" name="version">
+            <Select
+              options={[
+                { value: '1', label: '1' },
+                { value: '2', label: '2' },
+              ]}
+            />
+          </Form.Item>
           <Form.Item label="默认 header" name="header">
             <Input />
           </Form.Item>
