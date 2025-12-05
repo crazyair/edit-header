@@ -62,7 +62,17 @@ const RulesForm = ({ settings, ruleData, onChange }: { settings: settingsType; r
             <Form.Item>
               <Button
                 type="dashed"
-                onClick={() => add({ open: true, header: settings.header, list: [{ open: true }] })}
+                onClick={() => {
+                  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+                    const tab = tabs[0];
+                    let origin = '';
+                    if (tab.url) {
+                      const data = new URL(tab.url || '');
+                      origin = data.origin || '';
+                    }
+                    add({ open: true, header: settings.header, list: [{ open: true, url: origin }] });
+                  });
+                }}
                 block
                 icon={<PlusOutlined />}
               >
