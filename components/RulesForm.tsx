@@ -1,13 +1,14 @@
 import { MinusCircleOutlined, PlusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Card, Flex, Form, Input, Switch } from 'antd';
+import { Button, Card, ConfigProvider, Flex, Form, Input, Switch, Tooltip } from 'antd';
+import { useEffect, useState } from 'react';
 
-import type { ruleDataType, settingsType } from '~background';
+import type { ruleDataType, rulesType, settingsType } from '~background';
 
-const ChildrenForm = ({ name = 0 }: { name?: number }) => {
+const ChildrenForm = ({ name = 0, origin }: { name?: number; origin: string }) => {
   return (
     <Form.List name={[name, 'list']}>
       {(fields, { add, remove }) => {
-        const addDom = <PlusCircleOutlined onClick={() => add({ open: true })} />;
+        const addDom = <PlusCircleOutlined onClick={() => add({ open: true, url: origin })} />;
         return (
           <Flex vertical gap={8}>
             {fields.map(({ key, name }) => (
@@ -32,8 +33,48 @@ const ChildrenForm = ({ name = 0 }: { name?: number }) => {
   );
 };
 
+const MainForm = ({ name = 0, remove, origin }: { remove: (index: number | number[]) => void; name?: number; origin: string }) => {
+  const item = Form.useWatch<rulesType | undefined>(['rules', name]);
+  console.log(item?.list);
+  const disabled = !item?.list.some((item) => item.url?.includes(origin));
+  let dom = (
+    <Flex vertical gap={8}>
+      <Flex gap={8} align="center">
+        <Form.Item name={[name, 'header']} noStyle>
+          <Input placeholder="header" />
+        </Form.Item>
+        <Form.Item name={[name, 'value']} noStyle>
+          <Input placeholder="value" />
+        </Form.Item>
+        <Form.Item name={[name, 'open']} noStyle>
+          <Switch size="small" />
+        </Form.Item>
+        <MinusCircleOutlined onClick={() => remove(name)} />
+      </Flex>
+      <div style={{ paddingLeft: 24 }}>
+        <ChildrenForm name={name} origin={origin} />
+      </div>
+    </Flex>
+  );
+  if (disabled) {
+    dom = <Tooltip title="当前页面不适用此规则">{dom}</Tooltip>;
+  }
+  return <ConfigProvider componentDisabled={disabled}>{dom}</ConfigProvider>;
+};
+
 const RulesForm = ({ settings, ruleData, onChange }: { settings: settingsType; ruleData: ruleDataType; onChange: (data: ruleDataType) => void }) => {
   const [form] = Form.useForm();
+  const [origin, setOrigin] = useState('');
+
+  useEffect(() => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const tab = tabs[0];
+      if (tab.url) {
+        const data = new URL(tab.url || '');
+        setOrigin(data.origin || '');
+      }
+    });
+  }, []);
 
   return (
     <Form form={form} initialValues={ruleData} onValuesChange={(_, values) => onChange(values)}>
@@ -41,37 +82,13 @@ const RulesForm = ({ settings, ruleData, onChange }: { settings: settingsType; r
         {(fields, { add, remove }) => (
           <Flex vertical gap={8}>
             {fields.map(({ key, name }) => (
-              <Card key={key} size="small">
-                <Flex vertical gap={8}>
-                  <Flex gap={8} align="center">
-                    <Form.Item name={[name, 'header']} noStyle>
-                      <Input placeholder="header" />
-                    </Form.Item>
-                    <Form.Item name={[name, 'value']} noStyle>
-                      <Input placeholder="value" />
-                    </Form.Item>
-                    <Form.Item name={[name, 'open']} noStyle>
-                      <Switch size="small" />
-                    </Form.Item>
-                    <MinusCircleOutlined onClick={() => remove(name)} />
-                  </Flex>
-                  <ChildrenForm name={name} />
-                </Flex>
-              </Card>
+              <MainForm key={key} name={name} remove={remove} origin={origin} />
             ))}
             <Form.Item>
               <Button
                 type="dashed"
                 onClick={() => {
-                  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-                    const tab = tabs[0];
-                    let origin = '';
-                    if (tab.url) {
-                      const data = new URL(tab.url || '');
-                      origin = data.origin || '';
-                    }
-                    add({ open: true, header: settings.header, list: [{ open: true, url: origin }] });
-                  });
+                  add({ open: true, header: settings.header, list: [{ open: true, url: origin }] });
                 }}
                 block
                 icon={<PlusOutlined />}

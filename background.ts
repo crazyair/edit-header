@@ -1,6 +1,6 @@
 import { Storage } from '@plasmohq/storage';
 
-type rulesType = {
+export type rulesType = {
   open?: boolean;
   header?: string;
   value?: string;
