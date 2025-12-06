@@ -62,8 +62,8 @@ const init = async () => {
       }
     });
   }
-  console.log('配置');
-  console.log(JSON.stringify(list, null, 2));
+  // console.log('配置');
+  // console.log(JSON.stringify(list, null, 2));
   // 添加规则
   chrome.declarativeNetRequest.updateDynamicRules({ addRules: list });
 };

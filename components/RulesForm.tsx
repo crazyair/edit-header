@@ -35,7 +35,6 @@ const ChildrenForm = ({ name = 0, origin }: { name?: number; origin: string }) =
 
 const MainForm = ({ name = 0, remove, origin }: { remove: (index: number | number[]) => void; name?: number; origin: string }) => {
   const item = Form.useWatch<rulesType | undefined>(['rules', name]);
-  console.log(item?.list);
   const disabled = !item?.list.some((item) => item.url?.includes(origin));
   let dom = (
     <Flex vertical gap={8}>
@@ -87,8 +86,12 @@ const RulesForm = ({ settings, ruleData, onChange }: { settings: settingsType; r
             <Form.Item>
               <Button
                 type="dashed"
-                onClick={() => {
-                  add({ open: true, header: settings.header, list: [{ open: true, url: origin }] });
+                onClick={async () => {
+                  const text = await navigator.clipboard.readText();
+                  // 如果输入的文本是 Jira 格式，就使用 Jira 格式，否则使用空字符串
+                  const match = text.match(/^[A-Z]+-[0-9]+/);
+                  const value = match ? text : '';
+                  add({ open: true, header: settings.header, value, list: [{ open: true, url: origin }] });
                 }}
                 block
                 icon={<PlusOutlined />}
