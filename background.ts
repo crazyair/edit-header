@@ -8,7 +8,7 @@ export type rulesType = {
 };
 export type ruleDataType = { rules?: rulesType[] };
 
-export type settingsType = { open?: boolean; header?: string; valueType?: number; version?: string };
+export type settingsType = { open?: boolean; header?: string; valueType?: number; version?: string; jiraDomain?: string };
 
 // 所有类型都用
 const resourceTypes = Object.keys(chrome.declarativeNetRequest.ResourceType).map((key) => chrome.declarativeNetRequest.ResourceType[key]);

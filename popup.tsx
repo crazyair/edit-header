@@ -71,6 +71,9 @@ function IndexPopup() {
           <Form.Item label="默认 header" name="header">
             <Input />
           </Form.Item>
+          <Form.Item label="Jira 域名" name="jiraDomain">
+            <Input />
+          </Form.Item>
           <Form.Item label="格式化 value" name="valueType">
             <Select
               options={[

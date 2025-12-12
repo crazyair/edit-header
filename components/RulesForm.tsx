@@ -1,4 +1,4 @@
-import { MinusCircleOutlined, PlusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { LinkOutlined, MinusCircleOutlined, PlusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Card, ConfigProvider, Flex, Form, Input, Switch, Tooltip } from 'antd';
 import { useEffect, useState } from 'react';
 
@@ -33,9 +33,22 @@ const ChildrenForm = ({ name = 0, origin }: { name?: number; origin: string }) =
   );
 };
 
-const MainForm = ({ name = 0, remove, origin }: { remove: (index: number | number[]) => void; name?: number; origin: string }) => {
+const MainForm = ({
+  name = 0,
+  remove,
+  origin,
+  settings,
+}: {
+  remove: (index: number | number[]) => void;
+  name?: number;
+  origin: string;
+  settings: settingsType;
+}) => {
+  const { jiraDomain } = settings;
   const item = Form.useWatch<rulesType | undefined>(['rules', name]);
   const disabled = !item?.list.some((item) => item.url?.includes(origin));
+  const value = Form.useWatch(['rules', name, 'value']) || '';
+
   let dom = (
     <Flex vertical gap={8}>
       <Flex gap={8} align="center">
@@ -43,7 +56,19 @@ const MainForm = ({ name = 0, remove, origin }: { remove: (index: number | numbe
           <Input placeholder="header" />
         </Form.Item>
         <Form.Item name={[name, 'value']} noStyle>
-          <Input placeholder="value" />
+          <Input
+            placeholder="value"
+            addonAfter={
+              <LinkOutlined
+                title="跳转"
+                onClick={() => {
+                  const match = value.match(/^[A-Z]+-[0-9]+/);
+                  const matchValue = match ? match[0].toUpperCase() : '';
+                  window.open(`${jiraDomain}/browse/${matchValue}`);
+                }}
+              />
+            }
+          />
         </Form.Item>
         <Form.Item name={[name, 'open']} noStyle>
           <Switch size="small" />
@@ -81,7 +106,7 @@ const RulesForm = ({ settings, ruleData, onChange }: { settings: settingsType; r
         {(fields, { add, remove }) => (
           <Flex vertical gap={8}>
             {fields.map(({ key, name }) => (
-              <MainForm key={key} name={name} remove={remove} origin={origin} />
+              <MainForm key={key} name={name} remove={remove} origin={origin} settings={settings} />
             ))}
             <Form.Item>
               <Button
