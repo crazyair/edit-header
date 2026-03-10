@@ -114,7 +114,7 @@ const RulesForm = ({ settings, ruleData, onChange }: { settings: settingsType; r
                 onClick={async () => {
                   const text = await navigator.clipboard.readText();
                   // 如果输入的文本是 Jira 格式，就使用 Jira 格式，否则使用空字符串
-                  const match = text.match(/^[A-Z]+-[0-9]+/);
+                  const match = text.match(/^[A-Za-z]+-[0-9]+/);
                   const value = match ? text : '';
                   add({ open: true, header: settings.header, value, list: [{ open: true, url: origin }] });
                 }}
