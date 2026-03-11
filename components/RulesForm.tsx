@@ -48,6 +48,7 @@ const MainForm = ({
   const item = Form.useWatch<rulesType | undefined>(['rules', name]);
   const disabled = !item?.list.some((item) => item.url?.includes(origin));
   const value = Form.useWatch(['rules', name, 'value']) || '';
+  const match = value.match(/^[A-Za-z]+-[0-9]+/);
 
   let dom = (
     <Flex vertical gap={8}>
@@ -56,20 +57,18 @@ const MainForm = ({
           <Input placeholder="header" />
         </Form.Item>
         <Form.Item name={[name, 'value']} noStyle>
-          <Input
-            placeholder="value"
-            addonAfter={
-              <LinkOutlined
-                title="跳转"
-                onClick={() => {
-                  const match = value.match(/^[A-Z]+-[0-9]+/);
-                  const matchValue = match ? match[0].toUpperCase() : '';
-                  window.open(`${jiraDomain}/browse/${matchValue}`);
-                }}
-              />
-            }
-          />
+          <Input placeholder="value" />
         </Form.Item>
+        {match && (
+          <Tooltip title="打开 Jira">
+            <LinkOutlined
+              onClick={() => {
+                const matchValue = match[0].toUpperCase();
+                window.open(`${jiraDomain}/browse/${matchValue}`);
+              }}
+            />
+          </Tooltip>
+        )}
         <Form.Item name={[name, 'open']} noStyle>
           <Switch size="small" />
         </Form.Item>
