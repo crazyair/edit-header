@@ -100,7 +100,16 @@ const RulesForm = ({ settings, ruleData, onChange }: { settings: settingsType; r
   }, []);
 
   return (
-    <Form form={form} initialValues={ruleData} onValuesChange={(_, values) => onChange(values)}>
+    <Form
+      form={form}
+      initialValues={ruleData}
+      // onValuesChange={(_, values) => onChange(values)}
+      onValuesChange={() => {
+        setTimeout(() => {
+          onChange(form.getFieldsValue());
+        });
+      }}
+    >
       <Form.List name="rules">
         {(fields, { add, remove }) => (
           <Flex vertical gap={8}>
