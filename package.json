@@ -1,7 +1,7 @@
 {
   "name": "edit-header",
   "displayName": "Edit header",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "一个修改 request header 的工具",
   "author": "https://github.com/crazyair",
   "scripts": {
@@ -15,7 +15,7 @@
     "@plasmo-corp/ewu": "^0.6.0",
     "@plasmohq/storage": "^1.15.0",
     "ahooks": "^3.9.6",
-    "antd": "^6.3.2",
+    "antd": "^6.3.4",
     "plasmo": "0.90.5",
     "react": "19.2.4",
     "react-dom": "19.2.4"
